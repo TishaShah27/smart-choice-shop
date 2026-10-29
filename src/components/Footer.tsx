@@ -30,7 +30,6 @@ const Footer = () => (
             <p className="text-xs font-bold uppercase tracking-wide text-stone-400">Company</p>
             <ul className="mt-3 space-y-2 text-sm text-stone-600">
               <li><Link to="/about" className="hover:text-brand-700">About Us</Link></li>
-              <li><Link to="/reviews" className="hover:text-brand-700">Reviews</Link></li>
               <li><Link to="/contact" className="hover:text-brand-700">Contact</Link></li>
             </ul>
           </div>

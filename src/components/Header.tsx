@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { ShoppingCart, Sparkles, Menu, X } from "lucide-react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { ShoppingCart, Sparkles, Menu, X, Heart, ArrowLeft } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
+import ThemeToggle from "./ThemeToggle";
 
 const NAV_LINKS = [
+  { to: "/", label: "Home" },
   { to: "/products", label: "Products" },
-  { to: "/reviews", label: "Reviews" },
   { to: "/about", label: "About Us" },
   { to: "/contact", label: "Contact" },
 ];
 
 const Header = () => {
   const { totalItems } = useCart();
+  const { items: wishlist } = useWishlist();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -19,34 +24,58 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/90 backdrop-blur">
-      <div className="flex w-full items-center justify-between px-6 py-5 sm:px-10 lg:px-16">
-        <Link to="/" className="flex shrink-0 items-center gap-2.5" onClick={() => setMenuOpen(false)}>
+      <div className="flex w-full items-center justify-between gap-3 px-4 py-4 sm:gap-6 sm:px-10 sm:py-5 lg:px-16">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-4">
+        {pathname !== "/" && (
+          <button
+            onClick={() => navigate(-1)}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-stone-200 text-stone-700 transition-colors hover:bg-stone-100 md:hidden"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="h-4.5 w-4.5" />
+          </button>
+        )}
+        <Link to="/" className="flex min-w-0 items-center gap-2.5" onClick={() => setMenuOpen(false)}>
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500 text-white">
             <Sparkles className="h-5 w-5" />
           </span>
           <span className="flex flex-col leading-none">
-            <span className="text-lg font-bold tracking-tight text-stone-900">Smart Choice</span>
-            <span className="text-[11px] font-medium uppercase tracking-wider text-stone-400">Online Store</span>
+            <span className="whitespace-nowrap text-base font-bold tracking-tight text-stone-900 sm:text-lg">Smart Choice</span>
+            <span className="hidden text-[11px] font-medium uppercase tracking-wider text-stone-400 sm:block">Online Store</span>
           </span>
         </Link>
+        </div>
 
         {/* Nav + Cart grouped together on the right */}
-        <div className="flex items-center gap-10">
+        <div className="flex shrink-0 items-center gap-6 lg:gap-10">
           <nav className="hidden items-center gap-9 md:flex">
             {NAV_LINKS.map((link) => (
-              <NavLink key={link.to} to={link.to} className={navLinkClass}>
+              <NavLink key={link.to} to={link.to} end={link.to === "/"} className={navLinkClass}>
                 {link.label}
               </NavLink>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <ThemeToggle />
+            <Link
+              to="/wishlist"
+              className="relative hidden h-10 w-10 items-center justify-center rounded-full border border-stone-200 text-stone-700 transition-colors hover:bg-stone-100 sm:flex"
+              aria-label="Wishlist"
+            >
+              <Heart className="h-4.5 w-4.5" />
+              {wishlist.length > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[11px] font-bold text-white">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
             <Link
               to="/cart"
-              className="relative flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
+              className="relative flex h-10 items-center gap-2 rounded-full bg-brand-500 px-3.5 text-sm sm:px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
             >
               <ShoppingCart className="h-4 w-4" />
-              <span>Cart</span>
+              <span className="hidden sm:inline">Cart</span>
               {totalItems > 0 && (
                 <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-stone-900 px-1 text-[11px] font-bold text-white">
                   {totalItems}
@@ -71,6 +100,7 @@ const Header = () => {
             <NavLink
               key={link.to}
               to={link.to}
+              end={link.to === "/"}
               onClick={() => setMenuOpen(false)}
               className={({ isActive }) =>
                 `rounded-lg px-3 py-2.5 text-sm font-semibold ${isActive ? "bg-brand-50 text-brand-700" : "text-stone-600"}`
@@ -79,6 +109,16 @@ const Header = () => {
               {link.label}
             </NavLink>
           ))}
+          <NavLink
+            to="/wishlist"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-semibold ${isActive ? "bg-brand-50 text-brand-700" : "text-stone-600"}`
+            }
+          >
+            Wishlist
+            {wishlist.length > 0 && <span className="text-xs text-stone-400">{wishlist.length}</span>}
+          </NavLink>
         </nav>
       )}
     </header>

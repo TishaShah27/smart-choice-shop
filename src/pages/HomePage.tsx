@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Truck, PackageCheck, Tag } from "lucide-react";
+import { Truck, PackageCheck, Tag } from "lucide-react";
 import { useShopItems } from "../lib/useShopItems";
 import ProductGrid from "../components/ProductGrid";
+import HeroSplit from "../components/home/HeroSplit";
 import BestSellersSection from "../components/home/BestSellersSection";
 import OfferBanner from "../components/home/OfferBanner";
 import DiscoverSpotlight from "../components/home/DiscoverSpotlight";
@@ -34,30 +35,7 @@ const HomePage = () => {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-stone-900">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-brand-500/30 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-brand-400/20 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl px-6 py-16 lg:px-12 sm:py-24">
-          <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-200">
-            Live from our warehouse
-          </span>
-          <h1 className="mt-4 max-w-xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Shop Smart Choice's full inventory, direct from stock.
-          </h1>
-          <p className="mt-4 max-w-lg text-base text-stone-300">
-            Every item here reflects what's actually on our shelves right now. Add what you need to your cart and
-            place an order — our team will confirm it with you shortly after.
-          </p>
-          <Link
-            to="/products"
-            className="mt-7 inline-flex items-center gap-2 rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-400"
-          >
-            Browse All Products
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
+      <HeroSplit />
 
       {/* Shop by category — real data */}
       {categoryCards.length > 0 && (

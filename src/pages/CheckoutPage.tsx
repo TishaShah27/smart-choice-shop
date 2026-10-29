@@ -41,7 +41,8 @@ const CheckoutPage = () => {
       clear();
       navigate("/order-confirmed", { state: { orderId, customerName } });
     } catch (err) {
-      console.error("Error placing order:", err);
+      const detail = err as { message?: string; code?: string; details?: string; hint?: string };
+      console.error(`Error placing order: ${detail.message ?? "unknown"} (code ${detail.code ?? "n/a"})`, detail.details ?? "", detail.hint ?? "");
       setError("Something went wrong placing your order. Please try again.");
     } finally {
       setSubmitting(false);

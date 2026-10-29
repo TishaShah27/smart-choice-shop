@@ -8,14 +8,14 @@ export interface MockProduct {
   name: string;
   price: number;
   rating: number;
-  gradient: string;
+  image: string;
 }
 
 export const MOCK_BEST_SELLERS: MockProduct[] = [
-  { name: "Deluxe Gift Set", price: 24.0, rating: 5, gradient: "from-brand-300 to-brand-600" },
-  { name: "Premium Fragrance Trio", price: 32.5, rating: 5, gradient: "from-amber-200 to-amber-500" },
-  { name: "Everyday Essentials Pack", price: 18.0, rating: 4, gradient: "from-sky-200 to-sky-500" },
-  { name: "Specialty Candle Set", price: 21.0, rating: 5, gradient: "from-rose-200 to-rose-500" },
+  { name: "Deluxe Gift Set", price: 24.0, rating: 5, image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80" },
+  { name: "Premium Fragrance Trio", price: 32.5, rating: 5, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80" },
+  { name: "Everyday Essentials Pack", price: 18.0, rating: 4, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=600&q=80" },
+  { name: "Specialty Candle Set", price: 21.0, rating: 5, image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=600&q=80" },
 ];
 
 export interface MockTestimonial {

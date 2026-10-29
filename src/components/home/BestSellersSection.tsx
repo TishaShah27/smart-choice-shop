@@ -1,4 +1,4 @@
-import { Star, Package } from "lucide-react";
+import { Star } from "lucide-react";
 import { MOCK_BEST_SELLERS } from "../../lib/mockShowcaseData";
 
 const BestSellersSection = () => (
@@ -11,8 +11,8 @@ const BestSellersSection = () => (
     <div className="mt-12 grid grid-cols-2 gap-6 text-left sm:grid-cols-4">
       {MOCK_BEST_SELLERS.map((product) => (
         <div key={product.name}>
-          <div className={`aspect-square overflow-hidden rounded-2xl bg-gradient-to-br ${product.gradient} flex items-center justify-center`}>
-            <Package className="h-10 w-10 text-white/80" />
+          <div className="aspect-square overflow-hidden rounded-2xl bg-stone-100">
+            <img src={product.image} alt={product.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
           </div>
           <div className="mt-3 flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (

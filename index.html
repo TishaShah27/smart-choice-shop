@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      try {
+        var t = localStorage.getItem("smart_choice_shop_theme");
+        if (t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          document.documentElement.classList.add("dark");
+        }
+      } catch (e) {}
+    </script>
     <title>Smart Choice | Shop</title>
     <meta name="description" content="Browse Smart Choice's in-stock inventory and place an order online." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

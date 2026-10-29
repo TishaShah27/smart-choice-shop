@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
-import { Gift } from "lucide-react";
 
 const OfferBanner = () => (
   <section className="bg-stone-900">
     <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 sm:grid-cols-2 lg:px-12">
-      <div className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-800">
-        <Gift className="h-16 w-16 text-white/80" />
-      </div>
+      <img
+        src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1000&q=80"
+        alt="Gift bundle offer"
+        className="aspect-[4/3] w-full rounded-2xl object-cover"
+      />
       <div className="flex flex-col gap-4">
         <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">Buy 2 &amp; Get 1 Free</h2>
         <p className="max-w-sm text-sm text-stone-300">

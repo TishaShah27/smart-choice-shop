@@ -1,11 +1,25 @@
-import { ImageOff, Plus, Check } from "lucide-react";
+import { ImageOff, Plus, Check, Heart } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { ShopItem } from "../lib/itemService";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
+import ProductDetailSheet from "./ProductDetailSheet";
 
 const ItemCard = ({ item }: { item: ShopItem }) => {
   const { addItem } = useCart();
+  const { has, toggle } = useWishlist();
+  const wished = has(item.id);
   const [justAdded, setJustAdded] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  // Laptop (md+) opens the full product page; mobile opens the bottom sheet.
+  const openDetail = () => {
+    if (window.matchMedia("(min-width: 768px)").matches) navigate(`/products/${item.id}`);
+    else setDetailOpen(true);
+  };
 
   const handleAdd = () => {
     addItem(item);
@@ -15,7 +29,13 @@ const ItemCard = ({ item }: { item: ShopItem }) => {
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white transition-shadow hover:shadow-lg hover:shadow-stone-200/60">
-      <div className="aspect-square w-full overflow-hidden bg-stone-100">
+      <div className="relative">
+      <button
+        type="button"
+        onClick={openDetail}
+        className="block aspect-square w-full overflow-hidden bg-stone-100"
+        aria-label={`View ${item.name}`}
+      >
         {item.primaryImageUrl ? (
           <img
             src={item.primaryImageUrl}
@@ -28,6 +48,16 @@ const ItemCard = ({ item }: { item: ShopItem }) => {
             <ImageOff className="h-8 w-8" />
           </div>
         )}
+      </button>
+      <button
+        type="button"
+        onClick={() => toggle(item)}
+        className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-stone-500 shadow-sm backdrop-blur transition-colors hover:text-red-500"
+        aria-label={wished ? `Remove ${item.name} from wishlist` : `Add ${item.name} to wishlist`}
+        aria-pressed={wished}
+      >
+        <Heart className={`h-4.5 w-4.5 ${wished ? "fill-red-500 text-red-500" : ""}`} />
+      </button>
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
@@ -36,7 +66,13 @@ const ItemCard = ({ item }: { item: ShopItem }) => {
             {item.category}
           </span>
         )}
-        <h3 className="line-clamp-2 text-sm font-semibold text-stone-900">{item.name}</h3>
+        <button
+          type="button"
+          onClick={openDetail}
+          className="line-clamp-2 text-left text-sm font-semibold text-stone-900 hover:text-brand-600"
+        >
+          {item.name}
+        </button>
         <div className="mt-auto flex items-center justify-between pt-2">
           <span className="text-lg font-bold text-stone-900">${item.sellingPrice.toFixed(2)}</span>
           <button
@@ -51,6 +87,8 @@ const ItemCard = ({ item }: { item: ShopItem }) => {
           </button>
         </div>
       </div>
+
+      {detailOpen && <ProductDetailSheet item={item} onClose={() => setDetailOpen(false)} />}
     </div>
   );
 };
